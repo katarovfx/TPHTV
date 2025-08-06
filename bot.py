@@ -1,6 +1,3 @@
-
-
-# تنظیم لاگینگ
 import logging
 from telegram import Update, ReplyKeyboardMarkup, ReplyKeyboardRemove
 from telegram.ext import Application, CommandHandler, MessageHandler, filters, ContextTypes
@@ -73,16 +70,10 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE) -> 
     mode = context.user_data['mode']
     if mode == 'encrypt':
         result = encrypt_message(user_message)
-        await update.message.reply_text(
-            f'پیام رمزی: <code>{result}</code>',
-            parse_mode='HTML'
-        )
+        await update.message.reply_text(f'<code>{result}</code>', parse_mode='HTML')
     elif mode == 'decrypt':
         result = decrypt_message(user_message)
-        await update.message.reply_text(
-            f'پیام رمزگشایی‌شده: <code>{result}</code>',
-            parse_mode='HTML'
-        )
+        await update.message.reply_text(f'<code>{result}</code>', parse_mode='HTML')
 
 async def error_handler(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     """مدیریت خطاها"""
