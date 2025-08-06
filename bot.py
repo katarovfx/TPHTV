@@ -1,6 +1,4 @@
-import logging
-from telegram import Update, ReplyKeyboardMarkup, ReplyKeyboardRemove
-from telegram.ext import Application, CommandHandler, MessageHandler, filters, ContextTypes
+
 
 # تنظیم لاگینگ
 import logging
