@@ -3,6 +3,11 @@ from telegram import Update, ReplyKeyboardMarkup, ReplyKeyboardRemove
 from telegram.ext import Application, CommandHandler, MessageHandler, filters, ContextTypes
 
 # تنظیم لاگینگ
+import logging
+from telegram import Update, ReplyKeyboardMarkup, ReplyKeyboardRemove
+from telegram.ext import Application, CommandHandler, MessageHandler, filters, ContextTypes
+
+# تنظیم لاگینگ
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.INFO)
 logger = logging.getLogger(__name__)
 
@@ -48,7 +53,8 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     reply_markup = ReplyKeyboardMarkup(keyboard, resize_keyboard=True, one_time_keyboard=False)
     await update.message.reply_text(
         'سلام! من یک ربات رمزنگاری هستم.\n'
-        'لطفاً یکی از گزینه‌های «رمزنگاری» یا «رمزگشایی» را از کیبورد پایین انتخاب کنید و سپس پیام خود را بفرستید.',
+        'لطفاً یکی از گزینه‌های «رمزنگاری» یا «رمزگشایی» را از کیبورد پایین انتخاب کنید و سپس پیام خود را بفرستید.\n'
+        'پیام‌های خروجی را می‌توانید با یک کلیک کپی کنید.',
         reply_markup=reply_markup
     )
 
@@ -69,10 +75,16 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE) -> 
     mode = context.user_data['mode']
     if mode == 'encrypt':
         result = encrypt_message(user_message)
-        await update.message.reply_text(f'پیام رمزی: {result}')
+        await update.message.reply_text(
+            f'پیام رمزی: <code>{result}</code>',
+            parse_mode='HTML'
+        )
     elif mode == 'decrypt':
         result = decrypt_message(user_message)
-        await update.message.reply_text(f'پیام رمزگشایی‌شده: {result}')
+        await update.message.reply_text(
+            f'پیام رمزگشایی‌شده: <code>{result}</code>',
+            parse_mode='HTML'
+        )
 
 async def error_handler(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     """مدیریت خطاها"""
